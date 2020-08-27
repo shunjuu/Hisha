@@ -24,8 +24,8 @@ class Hisha:
         self._duration: int = kwargs.pop('duration', -1)
         self._popularity: int = kwargs.pop('popularity', -1)
         self._average_score: int = kwargs.pop('average_score', -1)
-        self._banner_image: str = kwargs.pop('banner_image', -1)
-        self._cover_image: str = kwargs.pop('cover_image', -1)
+        self._banner_image: str = kwargs.pop('banner_image', "")
+        self._cover_image: str = kwargs.pop('cover_image', "")
         self._title_user_preferred: str = kwargs.pop(
             'title_user_preferred', "Unknown")
         self._title_native: str = kwargs.pop('title_native', "Unknown")
