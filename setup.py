@@ -8,7 +8,7 @@ setup(
     install_requires=[
         'ayumi @ git+https://github.com/shunjuu/Ayumi',
         'deprecated',
-        'dynaconf',
+        'requests',
     ],
     version='0.1',
     license='MIT',
