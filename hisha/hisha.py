@@ -32,7 +32,7 @@ class Hisha:
         self._title_english: str = kwargs.pop('title_english', "Unknown")
         self._title_romaji: str = kwargs.pop('title_romaji', "Unknown")
         self._studio: str = kwargs.pop('studio', "Unknown")
-        self._studio_url: str = kwargs.pop('studio_url', "Unknown")
+        self._studio_url: str = kwargs.pop('studio_url', "")
         self._start_date: datetime = kwargs.pop('start_date', None)
         self._end_date: datetime = kwargs.pop('end_date', None)
 
