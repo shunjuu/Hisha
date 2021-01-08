@@ -3,13 +3,41 @@ import re
 import requests
 
 from ayumi import Ayumi
-from datetime import datetime
+from datetime import datetime, time
 from deprecated import deprecated
-from .queries import SINGLE as SINGLE_QUERY
-from .queries import PAGE as PAGE_QUERY
+try:
+    from .queries import SINGLE as SINGLE_QUERY
+    from .queries import PAGE as PAGE_QUERY
+except:
+    from queries import SINGLE as SINGLE_QUERY
+    from queries import PAGE as PAGE_QUERY
 
 ANILIST_API_URL = "https://graphql.anilist.co"
 KITSU_API_URL = "https://kitsu.io/api/edge/anime?filter[text]="
+
+DEFAULT_ID_ANI = -1
+DEFAULT_ID_MAL = -1
+DEFAULT_ID_KITSU = -1
+DEFAULT_EPISODES = -1
+DEFAULT_DURATION = -1
+DEFAULT_POPULARITY = -1
+DEFAULT_AVERAGE_SCORE = -1
+DEFAULT_BANNER_IMAGE = ""
+DEFAULT_COVER_IMAGE = ""
+DEFAULT_TITLE_USER_PREFERRED = "Unknown"
+DEFAULT_TITLE_NATIVE = "不明"
+DEFAULT_TITLE_ENGLISH = "Unknown"
+DEFAULT_TITLE_ROMAJI = "Unknown"
+DEFAULT_STUDIO = "Unknown"
+DEFAULT_STUDIO_URL = "Unknown"
+DEFAULT_START_DATE = time(0)
+DEFAULT_END_DATE = time(0)
+
+def extended_get(val, default):
+    """
+    dict.get() doesn't default if the key's value is None itself.
+    """
+    return val if val else default
 
 class Hisha:
     """
@@ -17,24 +45,23 @@ class Hisha:
     """
 
     def __init__(self, **kwargs):
-        self._id_ani: int = kwargs.pop('id_ani', -1)
-        self._id_mal: int = kwargs.pop('id_mal', -1)
-        self._id_kitsu: int = kwargs.pop('id_kitsu', -1)  # Deprecated
-        self._episodes: int = kwargs.pop('episodes', -1)
-        self._duration: int = kwargs.pop('duration', -1)
-        self._popularity: int = kwargs.pop('popularity', -1)
-        self._average_score: int = kwargs.pop('average_score', -1)
-        self._banner_image: str = kwargs.pop('banner_image', "")
-        self._cover_image: str = kwargs.pop('cover_image', "")
-        self._title_user_preferred: str = kwargs.pop(
-            'title_user_preferred', "Unknown")
-        self._title_native: str = kwargs.pop('title_native', "Unknown")
-        self._title_english: str = kwargs.pop('title_english', "Unknown")
-        self._title_romaji: str = kwargs.pop('title_romaji', "Unknown")
-        self._studio: str = kwargs.pop('studio', "Unknown")
-        self._studio_url: str = kwargs.pop('studio_url', "")
-        self._start_date: datetime = kwargs.pop('start_date', None)
-        self._end_date: datetime = kwargs.pop('end_date', None)
+        self._id_ani: int = extended_get(kwargs.get('id_ani'), DEFAULT_ID_ANI)
+        self._id_mal: int = extended_get(kwargs.get('id_mal'), DEFAULT_ID_MAL)
+        self._id_kitsu: int = extended_get(kwargs.get('id_kitsu'), DEFAULT_ID_KITSU) # Deprecated
+        self._episodes: int = extended_get(kwargs.get('episodes'), DEFAULT_EPISODES)
+        self._duration: int = extended_get(kwargs.get('duration'), DEFAULT_DURATION)
+        self._popularity: int = extended_get(kwargs.get('popularity'), DEFAULT_POPULARITY)
+        self._average_score: int = extended_get(kwargs.get('average_score'), DEFAULT_AVERAGE_SCORE)
+        self._banner_image: str = extended_get(kwargs.get('banner_image'), DEFAULT_BANNER_IMAGE)
+        self._cover_image: str = extended_get(kwargs.get('cover_image'), DEFAULT_COVER_IMAGE)
+        self._title_user_preferred: str = extended_get(kwargs.get('title_user_preferred'), DEFAULT_TITLE_USER_PREFERRED)
+        self._title_native: str = extended_get(kwargs.get('title_native'), DEFAULT_TITLE_NATIVE)
+        self._title_english: str = extended_get(kwargs.get('title_english'), DEFAULT_TITLE_ENGLISH)
+        self._title_romaji: str = extended_get(kwargs.get('title_romaji'), DEFAULT_TITLE_ROMAJI)
+        self._studio: str = extended_get(kwargs.get('studio'), DEFAULT_STUDIO)
+        self._studio_url: str = extended_get(kwargs.get('studio_url'), DEFAULT_STUDIO_URL)
+        self._start_date: datetime = extended_get(kwargs.get('start_date'), DEFAULT_START_DATE)
+        self._end_date: datetime = extended_get(kwargs.get('end_date'), DEFAULT_END_DATE)
 
     @property
     def id(self) -> int:
