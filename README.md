@@ -34,6 +34,8 @@ Calling `search()` will request Hisha to make up to (3) calls to Anilist's Graph
 | average_score        | int      | -1                 |
 | banner_image         | str      | ""                 |
 | cover_image          | str      | ""                 |
+| studio               | str      | "Unknown"          |
+| studio_url           | str      | ""                 |
 | title                | str      | "Unknown"          |
 | title_user_preferred | str      | "Unknown"          | Same as `title`  |
 | title_native         | str      | "不明"             |
