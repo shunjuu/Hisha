@@ -29,7 +29,7 @@ DEFAULT_TITLE_NATIVE = "不明"
 DEFAULT_TITLE_ENGLISH = "Unknown"
 DEFAULT_TITLE_ROMAJI = "Unknown"
 DEFAULT_STUDIO = "Unknown"
-DEFAULT_STUDIO_URL = "Unknown"
+DEFAULT_STUDIO_URL = ""
 DEFAULT_START_DATE = time(0)
 DEFAULT_END_DATE = time(0)
 
@@ -305,7 +305,7 @@ def _kitsu_basic_search(title):
     Ayumi.debug("Created Kitsu request URL: {}".format(request_url))
 
     try:
-        kitsu_res = requests.get(request_url)
+        kitsu_res = requests.get(request_url, timeout=10)
 
         try:
             kitsu_json = kitsu_res.json()
@@ -313,6 +313,9 @@ def _kitsu_basic_search(title):
         except:
             Ayumi.warning("Kitsu did not return a valid JSON response.", color=Ayumi.RED)
             raise Exception()
+    except requests.exceptions.Timeout:
+        Ayumi.warning("Kitsu request timed out.", color=Ayumi.LRED)
+        raise Exception()
     except requests.exceptions.ConnectionError:
         Ayumi.warning(
             "Unable to contact Kitsu, maybe it's down?", color=Ayumi.LRED)
@@ -347,10 +350,11 @@ def _get_main_studio_info(studios):
                 return (node['name'], node['siteUrl'])
         # If a main studio isn't found, return None
         Ayumi.debug("Didn't find any main studio edge, returning None")
-        return None
-    except:
-        Ayumi.debug("Didn't find any main studio edge, returning None")
-        return None
+        return (None, None)
+    except Exception as e:
+        Ayumi.warning("Didn't find any main studio edge due to error, returning None")
+        Ayumi.warning(e)
+        return (None, None)
     
 def _create_hisha_object(show, title):
     if show is None:
