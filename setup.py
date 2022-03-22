@@ -6,7 +6,7 @@ setup(
     author='Kyrielight',
     packages=['hisha'],
     install_requires=[
-        'ayumi @ git+git://github.com/shunjuu/Ayumi@master#egg=ayumi',
+        'ayumi @ git+https://github.com/shunjuu/Ayumi@master#egg=ayumi',
         'deprecated',
         'requests',
     ],
